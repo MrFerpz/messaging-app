@@ -1,5 +1,8 @@
+import Toolbar from "../components/Toolbar"
+
 export default function HomePage() {
+
     return (
-        <div>Homepage</div>
+        <Toolbar/>
     )
 }
