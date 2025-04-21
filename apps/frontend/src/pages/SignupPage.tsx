@@ -2,7 +2,7 @@ import { Box, Stack, Flex, Button, Field, Input, Text, Separator, Heading } from
 import { PasswordInput } from "../components/ui/password-input"
 import { Link } from "react-router";
 
-export default function LoginPage() {
+export default function SignupPage() {
 
     function onSubmit(e: any) {
         e.preventDefault();
@@ -15,8 +15,8 @@ export default function LoginPage() {
                 <Field.Root>
                     <form onSubmit={onSubmit}>
                         <Stack gap="3" w="sm">
-                            <Heading>Log in to Black Book</Heading>
-                            <Heading marginTop="-20px" fontSize="0.8rem">Enter your details below</Heading>
+                            <Heading>Sign up for Black Book</Heading>
+                            <Heading marginTop="-20px" fontSize="0.8rem">Create a free account below</Heading>
                             <Separator size="md"></Separator>
                             <Field.Label htmlFor="username">Username</Field.Label>
                             <Input placeholder="Jenkins123" name="username"></Input>
@@ -28,8 +28,8 @@ export default function LoginPage() {
                 </Field.Root>
                 <Separator marginBottom="10px" marginTop="15px" size="md"/>
                 <Stack maxW="sm">
-                        <Text>Don't have an account yet?</Text>
-                        <Link to="/signup"><Text _hover={{cursor: "pointer", color: "blue.400"}} marginTop="-10px" color="blue.500">Sign up here!</Text></Link>
+                        <Text>Have an account already?</Text>
+                        <Link to="/login"><Text _hover={{cursor: "pointer", color: "blue.400"}} marginTop="-10px" color="blue.500">Log in here!</Text></Link>
                 </Stack>
             </Box>
         </Flex>
