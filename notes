@@ -1,0 +1,45 @@
+Messaging App in Typescript
+
+Main Objectives
+    - Learn Typescript
+    - Cleaner folder structure than previous projects
+
+-- apps
+--- frontend
+----- public
+----- src
+----- vite.config.ts
+--- backend
+----- prisma
+----- src/
+----- tsconfig.json
+-- packages
+----- ui 
+----- utils
+----- types
+-- gitignore
+-- package.json
+
+Project reqs
+-------------
+- Authorization (JWT, stored somewhere other than LocalStorage)
+- Ability to open chat and send messages to other users 
+- Ability to customise profile and view others profiles
+
+Backend models
+-------------
+- Users (id, username, pw, bio, profile picture, date of birth, sentMessages)
+- Messages (recipientID, senderID, message, time)
+
+Frontend pages
+-------------
+- Homepage
+- Login / Signup
+- Messages
+- Profile
+
+
+
+
+
+
