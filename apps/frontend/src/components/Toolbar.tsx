@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Separator, Stack, Tabs } from "@chakra-ui/react";
+import { Avatar, Box, Grid, Tabs } from "@chakra-ui/react";
 import { Link } from "react-router";
 
 export default function Toolbar() {
@@ -17,12 +17,8 @@ export default function Toolbar() {
                         </Tabs.List>
                         <Tabs.Content value="messages">
                             {/* backend logic needed to map from db here */}
-                            <Stack>Message 1</Stack>
-                            <Separator></Separator>
                         </Tabs.Content>
                         <Tabs.Content value="friends">
-                            <Stack>Friend 1</Stack>
-                            <Separator></Separator>
                         </Tabs.Content>
                     </Tabs.Root>
             </Grid>
