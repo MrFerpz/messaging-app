@@ -9,7 +9,7 @@ async function getMessages(req, res) {
 
 async function signup(req, res) {
     const username = req.body.username;
-    const password = bcrypt.hash(req.body.password, 10);
+    const password = await bcrypt.hash(req.body.password, 10);
     try {
         await prisma.signupUser(username, password);
         res.json("Successfully signed up.");

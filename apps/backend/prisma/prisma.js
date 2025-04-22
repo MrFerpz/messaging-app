@@ -7,12 +7,18 @@ async function findAllMessages() {
 }
 
 async function signupUser(username, password) {
+   try {
     await prisma.users.create({
         data: {
             username: username,
             password: password
         }
     })
+    console.log("user created")
+
+    } catch(err) {
+        console.log(err)
+    }
 }
 
 async function findUser(username) {
