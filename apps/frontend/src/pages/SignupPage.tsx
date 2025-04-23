@@ -1,11 +1,13 @@
 import { Box, Stack, Flex, Button, Field, Input, Text, Separator, Heading } from "@chakra-ui/react"
 import { PasswordInput } from "../components/ui/password-input"
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
 
 export default function SignupPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const message = location.state?.message;
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -33,6 +35,7 @@ export default function SignupPage() {
 
     return (
         <Flex flexDirection="column">
+            <div>{message}</div>
             <Box boxShadow="lg" bg="blackAlpha.900" p={6} borderRadius="md">
                 <Field.Root>
                     <form onSubmit={onSubmit}>

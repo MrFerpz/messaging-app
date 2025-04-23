@@ -26,11 +26,11 @@ export default function LoginPage() {
         }, {
             withCredentials: true
         })
-        navigate("/home")
+        navigate("/home", {state: {message: "Successfully logged in"}})
     
     } catch(err) {
             console.log(err);
-            navigate("/signup")
+            navigate("/signup", {state: {message: err}})
         }
     }
 
@@ -44,9 +44,9 @@ export default function LoginPage() {
                             <Heading marginTop="-20px" fontSize="0.8rem">Enter your details below</Heading>
                             <Separator size="md"></Separator>
                             <Field.Label htmlFor="username">Username</Field.Label>
-                            <Input onChange={onUsernameChange} placeholder="Jenkins123" name="username"></Input>
+                            <Input id="username" onChange={onUsernameChange} placeholder="Jenkins123" name="username"></Input>
                             <Field.Label htmlFor="password">Password</Field.Label>
-                            <PasswordInput onChange={onPasswordChange} placeholder="********" name="password"></PasswordInput>
+                            <PasswordInput id="password" onChange={onPasswordChange} placeholder="********" name="password"></PasswordInput>
                             <Button border="0.5px solid lightgreen" color="whiteAlpha.900" type="submit">Login</Button>
                         </Stack>
                     </form>
