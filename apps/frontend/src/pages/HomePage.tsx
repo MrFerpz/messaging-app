@@ -5,8 +5,27 @@ import ProfilePane from "../components/ProfilePane"
 import MessageArea from "../components/MessageArea"
 import MessageInput from "../components/MessageInput"
 import { Grid, GridItem } from "@chakra-ui/react"
+import axios from "axios"
+import { useNavigate } from "react-router"
+import { useEffect } from "react"
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        authCheck()
+    }, [])
+
+    async function authCheck() {
+        try {
+            await axios.get("http://localhost:3000", {
+            withCredentials: true
+        })
+        } catch(err) {
+            console.log(err);
+            navigate("/login");
+        }
+    }
 
     return (
         <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 2fr">
