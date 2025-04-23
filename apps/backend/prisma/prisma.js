@@ -9,9 +9,13 @@ async function findAllMessages(userID) {
                         {recipientID: userID}
                         ]
                 },
-                orderBy: {
-                    createdAt: 'desc'
-                }
+            include: {
+                author: true,
+                recipient: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         }
     )
     return messages
