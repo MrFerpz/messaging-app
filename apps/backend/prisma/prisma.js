@@ -1,8 +1,19 @@
 const { PrismaClient } = require('./app/generated/prisma/client');
 const prisma = new PrismaClient()
 
-async function findAllMessages() {
-    const messages = await prisma.messages.findMany()
+async function findAllMessages(userID) {
+    const messages = await prisma.messages.findMany({
+            where: {
+                    OR: [
+                        {authorID: userID},
+                        {recipientID: userID}
+                        ]
+                },
+                orderBy: {
+                    createdAt: 'desc'
+                }
+        }
+    )
     return messages
 }
 

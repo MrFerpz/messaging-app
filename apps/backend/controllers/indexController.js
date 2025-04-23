@@ -3,7 +3,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 async function getMessages(req, res) {
-    const messages = await prisma.findAllMessages();
+    const token = req.cookies.token;
+    const user = jwt.verify(token, "megasecretkeyshhhh");
+    console.log(user);
+    const messages = await prisma.findAllMessages(user.id);
     res.json(messages);
 }
 
@@ -12,9 +15,9 @@ async function signup(req, res) {
     const password = await bcrypt.hash(req.body.password, 10);
     try {
         await prisma.signupUser(username, password);
-        res.json("Successfully signed up.");
+        return res.json("Successfully signed up.");
     } catch(err) {
-        res.json(err);
+        return res.json(err);
     }
 }
 
@@ -25,11 +28,11 @@ async function login(req, res) {
     // verify password
     const user = await prisma.findUser(username);
     if (!user) {
-        res.json("User does not exist.")
+        return res.status(401).send("User does not exist.")
     }
 
     if (!bcrypt.compare(password, user.password)) {
-        res.json("Incorrect password.")
+        return res.status(401).send("Incorrect password.")
     }
 
     // extract unnecessary info
@@ -38,25 +41,42 @@ async function login(req, res) {
         username: user.username,
     }
 
-    const token = jwt.sign({
-                    data: payload,
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                    }, "megasecretkeyshhhh");
+    // generate token
+    const token = jwt.sign(payload, "megasecretkeyshhhh", {expiresIn: "1h"});
 
-    res.json(token);
+    // store token as a cookie (sets req.cookies.token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+        path: "/",
+        maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    return res.json("Logged in successfully.")
     }
 
+async function logout(req, res) {
+    res.clearCookie("token");
+    return res.json("Logged out successfully.")
+}
+
 // auth check middleware
-async function checkLoggedIn(req, res, next) {
-    const bearerHeader = req.headers["authorization"];
-    const headerArray = bearerHeader.split("");
-    const bearerToken = headerArray[1];
+async function checkLoggedIn(req, res) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).send("Not authenticated, please log-in.")
+    }
 
     try {
-        jwt.verify(bearerToken, "megasecretkeyshhhh");
-        next()
+        // check the token is legit & decode it
+        const user = jwt.verify(token, "megasecretkeyshhhh");
+        // attach to future req objects so we can use the info
+        req.user = user;
+        return res.json(user);
     } catch(err) {
-        res.json(err)
+        return res.status(401).send("Couldn't verify the token")
     }
 }
 
@@ -70,5 +90,6 @@ module.exports = {
     getMessages,
     signup,
     login,
+    logout,
     checkLoggedIn
 }
