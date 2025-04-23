@@ -12,8 +12,13 @@ import MessageArea from "../components/MessageArea"
 import MessageInput from "../components/MessageInput"
 
 export default function HomePage() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+
+    interface User {
+        id: number;
+        username: string
+    }
 
     const location = useLocation();
     const message = location.state?.message;
@@ -29,11 +34,15 @@ export default function HomePage() {
 
     async function authCheck() {
         try {
-            const user = await axios.get("http://localhost:3000/api/authcheck", {
+            const userDetails = await axios.get("http://localhost:3000/api/authcheck", {
             withCredentials: true
         })
 
-        setUser(user.data);
+        const user: User = {
+            id: userDetails.data.id,
+            username: userDetails.data.username
+        }
+        setUser(user);
 
         } catch(err) {
             console.log(err);
@@ -60,7 +69,7 @@ export default function HomePage() {
                                 <Toolbar/>
                             </GridItem>
                             <GridItem gridColumn="1" gridRow="2 / 4">
-                                <MessagesPane/>
+                               <MessagesPane/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="1">
                                 <MessagesTitleBar/>
