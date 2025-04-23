@@ -1,12 +1,34 @@
 import { Box, Stack, Flex, Button, Field, Input, Text, Separator, Heading } from "@chakra-ui/react"
 import { PasswordInput } from "../components/ui/password-input"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignupPage() {
+    const navigate = useNavigate();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-    function onSubmit(e: any) {
+    function onUsernameChange(e: any) {
+        setUsername(e.target.value)
+    }
+
+    function onPasswordChange(e: any) {
+        setPassword(e.target.value)
+    }
+
+    async function onSubmit(e: any) {
         e.preventDefault();
-        return
+        try {
+            await axios.post("http://localhost:3000/api/signup", {
+                username: username,
+                password: password
+            })
+            console.log("User successfully signed up.");
+            navigate("/home");
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -19,9 +41,9 @@ export default function SignupPage() {
                             <Heading marginTop="-20px" fontSize="0.8rem">Create a free account below</Heading>
                             <Separator size="md"></Separator>
                             <Field.Label htmlFor="username">Username</Field.Label>
-                            <Input placeholder="Jenkins123" name="username"></Input>
+                            <Input onChange={onUsernameChange} placeholder="Jenkins123" name="username"></Input>
                             <Field.Label htmlFor="password">Password</Field.Label>
-                            <PasswordInput placeholder="********" name="password"></PasswordInput>
+                            <PasswordInput onChange={onPasswordChange} placeholder="********" name="password"></PasswordInput>
                             <Button border="0.5px solid lightgreen" color="whiteAlpha.900" type="submit">Signup</Button>
                         </Stack>
                     </form>
