@@ -25,9 +25,11 @@ export default function SignupPage() {
             await axios.post("http://localhost:3000/api/signup", {
                 username: username,
                 password: password
+            }, {
+                withCredentials: true
             })
             console.log("User successfully signed up.");
-            navigate("/home");
+            navigate("/login");
         } catch(err) {
             console.log(err)
         }
