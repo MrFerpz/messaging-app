@@ -1,8 +1,12 @@
-import { Box, Separator, VStack } from "@chakra-ui/react"
+import { Box, Separator, Stack, Text, Button } from "@chakra-ui/react"
 import axios from "axios"
 import { useState, useEffect } from "react";
 
-export default function MessagesPane() {
+interface MessagesPaneProps {
+    clickHandle: (id: number) => void
+}
+
+export default function MessagesPane({clickHandle}: MessagesPaneProps) {
 
     interface Message {
         id: number,
@@ -40,7 +44,6 @@ export default function MessagesPane() {
         getMessages();
     }, [])
 
-
     if (loading) {
         return (
             <div>Loading...</div>
@@ -49,22 +52,24 @@ export default function MessagesPane() {
 
     if (messages) {
         return (
-            <div>
+            <Box p={4} position="relative" zIndex="0" height="100%" bgColor="blackAlpha.800">
+                <Stack>
                     {messages.map(message => (
-                        <div key={message.id}>
-                            <div>{message.id}</div>
+                        <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
+                            <Text fontWeight="bolder">{message.author.username}</Text>
                             <div>{message.content}</div>
-                            <div>{message.authorID}</div>
-                        </div>
+                        </Box>
                     ))
-                    } 
-            </div>
+                    }
+                    <Button height="2rem" bg="whiteAlpha.900">New message</Button>
+                </Stack>
+            </Box>
         )
     }
 
     return (
         <Box p={4} height="calc(100vh - 100px)" bg="blackAlpha.900">
-            <VStack>
+            <Stack>
                 <Box h="40px" w="100%" bg="gray.800"></Box>
                 <Separator></Separator>
                 <Box h="40px" w="100%" bg="gray.800"></Box>
@@ -74,7 +79,7 @@ export default function MessagesPane() {
                 <Box h="40px" w="100%" bg="gray.800"></Box>
                 <Separator></Separator>
                 <Box h="40px" w="100%" bg="gray.800"></Box>
-            </VStack>
+            </Stack>
         </Box>
     )
 }

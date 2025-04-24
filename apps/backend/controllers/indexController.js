@@ -3,8 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 async function getMessages(req, res) {
-    const token = req.cookies.token;
-    const user = jwt.verify(token, "megasecretkeyshhhh");
+    const user = jwt.verify(req.cookies.token, "megasecretkeyshhhh");
     console.log(user);
     const messages = await prisma.findAllMessages(user.id);
     res.json(messages);
@@ -22,8 +21,9 @@ async function signup(req, res) {
 }
 
 async function login(req, res) {
+    res.clearCookie("token");
     const username = req.body.username;
-    const password = req.body.password
+    const password = req.body.password;
 
     // verify password
     const user = await prisma.findUser(username);
@@ -66,7 +66,7 @@ async function checkLoggedIn(req, res) {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).send("Not authenticated, please log-in.")
+        return res.send("Not authenticated, please log-in.")
     }
 
     try {
@@ -80,6 +80,14 @@ async function checkLoggedIn(req, res) {
     }
 }
 
+async function getConversation(req, res) {
+    const user = jwt.verify(req.cookies.token, "megasecretkeyshhhh");
+    const primaryID = Number(user.id);
+    const secondaryID = Number(req.params.userID);
+    const conversation = await prisma.getConversation(primaryID, secondaryID);
+    res.json(conversation);
+}
+
 // async function postMessage(req, res) {
 //     const message = req.body.message;
 //     will also need sender and recipient
@@ -91,5 +99,6 @@ module.exports = {
     signup,
     login,
     logout,
-    checkLoggedIn
+    checkLoggedIn,
+    getConversation
 }

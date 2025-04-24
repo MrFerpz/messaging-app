@@ -14,10 +14,15 @@ import MessageInput from "../components/MessageInput"
 export default function HomePage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [conversationWith, setConversationWith] = useState(0)
 
     interface User {
         id: number;
         username: string
+    }
+
+    function messageClickHandle(id: number) {
+        setConversationWith(id);
     }
 
     const location = useLocation();
@@ -69,7 +74,7 @@ export default function HomePage() {
                                 <Toolbar/>
                             </GridItem>
                             <GridItem gridColumn="1" gridRow="2 / 4">
-                               <MessagesPane/>
+                               <MessagesPane clickHandle={messageClickHandle}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="1">
                                 <MessagesTitleBar/>
@@ -78,7 +83,7 @@ export default function HomePage() {
                                 <ProfilePane/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
-                                <MessageArea/>
+                                <MessageArea focusedConversation={conversationWith}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="3">
                                 <MessageInput/>
@@ -94,7 +99,7 @@ export default function HomePage() {
     if (!user) {
         return (
             <Box p={6} boxShadow="md">
-                <Text>It appears you are not logged in. Login <Link to="login">here!</Link></Text>
+                <Text>It appears you are not logged in. Login <Link to="/login">here!</Link></Text>
             </Box>
         )
     }

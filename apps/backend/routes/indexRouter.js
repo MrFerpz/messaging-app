@@ -7,5 +7,6 @@ indexRouter.post("/api/signup", indexController.signup);
 indexRouter.post("/api/login", indexController.login);
 indexRouter.get("/api/authcheck", indexController.checkLoggedIn);
 indexRouter.get("/api/logout", indexController.logout);
+indexRouter.get("/api/messages/with/:userID", indexController.getConversation)
 
 module.exports = indexRouter

@@ -10,6 +10,7 @@ async function findAllMessages(userID) {
                         ]
                 },
             include: {
+                // need to fix problem here where it includes their password
                 author: true,
                 recipient: true
             },
@@ -45,4 +46,23 @@ async function findUser(username) {
     return user
 }
 
-module.exports = { findAllMessages, signupUser, findUser }
+async function getConversation(primaryID, secondaryID) {
+    const conversation = await prisma.messages.findMany({
+        where: {
+            OR: [
+                {
+                    authorID: primaryID,
+                    recipientID: secondaryID
+                },
+                {
+                    recipientID: primaryID,
+                    authorID: secondaryID
+                }
+            ]
+        }, orderBy: { createdAt: "desc" }
+    });
+
+    return conversation
+}
+
+module.exports = { findAllMessages, signupUser, findUser, getConversation }
