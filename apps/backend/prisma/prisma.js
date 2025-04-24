@@ -11,8 +11,18 @@ async function findAllMessages(userID) {
                 },
             include: {
                 // need to fix problem here where it includes their password
-                author: true,
-                recipient: true
+                author: {
+                    select: {
+                        username: true,
+                        id:true,
+                    }
+                },
+                recipient: {
+                    select: {
+                        username: true,
+                        id: true
+                    }
+                }
             },
             orderBy: {
                 createdAt: 'desc'
@@ -59,8 +69,23 @@ async function getConversation(primaryID, secondaryID) {
                     authorID: secondaryID
                 }
             ]
-        }, orderBy: { createdAt: "desc" }
-    });
+        }, 
+        orderBy: { createdAt: "desc" },
+        include: { 
+            author: {
+                select: {
+                    id: true,
+                    username: true
+                        }
+                    },
+             recipient: {
+                select: {
+                    id: true,
+                    username: true
+                         }
+                    }
+                }
+            });
 
     return conversation
 }
