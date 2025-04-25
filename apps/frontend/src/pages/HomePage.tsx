@@ -30,7 +30,7 @@ export default function HomePage() {
 
     useEffect(() => {
         authCheck()
-    }, [])
+    }, []);
 
     async function logOut() {
         await axios.get("http://localhost:3000/api/logout");
@@ -69,7 +69,7 @@ export default function HomePage() {
         return (
                 <div>
                     <Text>{message}</Text>
-                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 2fr">
+                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 3fr">
                             <GridItem gridColumn="1" gridRow="1">
                                 <Toolbar/>
                             </GridItem>

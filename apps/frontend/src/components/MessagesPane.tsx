@@ -23,6 +23,7 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
         username: string
     }
 
+    const [authors, setAuthors] = useState<string[]>([]);
     const [messages, setMessages] = useState<Message[] | null>(null)
     const [loading, setLoading] = useState(true)
 
@@ -31,7 +32,35 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
         const res = await axios.get("http://localhost:3000/api/messages", {
             withCredentials: true
         });
-        setMessages(res.data);
+
+        const userID: any = await axios.get("http://localhost:3000/api/userID", {
+            withCredentials: true
+        });
+
+
+        // way to get all received messages and authors
+        function removeReceived(message: Message) {
+            return message.authorID !== userID.data
+        }
+        const filteredMessages = res.data.filter(removeReceived);
+        setMessages(filteredMessages)
+
+        // way to get just unique author names but no messages
+        const messageAuthors: string[] = filteredMessages.map((message: Message) => message.author.username);
+        const uniqAuthors: string[] = [...new Set(messageAuthors)];
+        setAuthors(uniqAuthors);
+        const reducedMessages = [];
+
+        console.log(filteredMessages);
+
+        // // ideally I want just the first message from each author
+        // for (const x of uniqAuthors) {
+        //     if (filteredMessages[i].author.username === uniqAuthors[i]) {
+        //         reducedMessages.push(filteredMessages[i])
+        //     }
+        // }
+
+        console.log(reducedMessages);
 
         } catch(err) {
             console.log(err);

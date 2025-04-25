@@ -4,9 +4,13 @@ const jwt = require('jsonwebtoken');
 
 async function getMessages(req, res) {
     const user = jwt.verify(req.cookies.token, "megasecretkeyshhhh");
-    console.log(user);
     const messages = await prisma.findAllMessages(user.id);
     res.json(messages);
+}
+
+async function getUserID(req, res) {
+    const user = jwt.verify(req.cookies.token, "megasecretkeyshhhh");
+    res.json(user.id)
 }
 
 async function signup(req, res) {
@@ -100,5 +104,6 @@ module.exports = {
     login,
     logout,
     checkLoggedIn,
-    getConversation
+    getConversation,
+    getUserID
 }
