@@ -23,7 +23,6 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
         username: string
     }
 
-    const [authors, setAuthors] = useState<string[]>([]);
     const [messages, setMessages] = useState<Message[] | null>(null)
     const [loading, setLoading] = useState(true)
 
@@ -43,24 +42,17 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
             return message.authorID !== userID.data
         }
         const filteredMessages = res.data.filter(removeReceived);
-        setMessages(filteredMessages)
 
-        // way to get just unique author names but no messages
-        const messageAuthors: string[] = filteredMessages.map((message: Message) => message.author.username);
-        const uniqAuthors: string[] = [...new Set(messageAuthors)];
-        setAuthors(uniqAuthors);
-        const reducedMessages = [];
+        const reducedMessages = filteredMessages.reduce((acc: Message[], current: Message) => {
+            // check falsity of current author existing in the accumulator array
+            if (!acc.some((message: Message) => message.author.username === current.author.username))
+            // if they don't exist, add message to the accumulator
+            acc.push(current);
+            return acc;
+        // initial value is empty array []
+        }, []);
 
-        console.log(filteredMessages);
-
-        // // ideally I want just the first message from each author
-        // for (const x of uniqAuthors) {
-        //     if (filteredMessages[i].author.username === uniqAuthors[i]) {
-        //         reducedMessages.push(filteredMessages[i])
-        //     }
-        // }
-
-        console.log(reducedMessages);
+        setMessages(reducedMessages);
 
         } catch(err) {
             console.log(err);
