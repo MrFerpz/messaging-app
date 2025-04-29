@@ -44,7 +44,7 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
         const filteredMessages = res.data.filter(removeReceived);
 
         const reducedMessages = filteredMessages.reduce((acc: Message[], current: Message) => {
-            // check falsity of current author existing in the accumulator array
+            // check if current author exists in the accumulator array
             if (!acc.some((message: Message) => message.author.username === current.author.username))
             // if they don't exist, add message to the accumulator
             acc.push(current);

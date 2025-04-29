@@ -23,6 +23,7 @@ interface User {
 
 export default function MessageArea({focusedConversation}: Props) {
     const [conversation, setConversation] = useState<Message[] | null>(null)
+    const [user, setUser] = useState<User | null>(null)
 
     async function getConversation() {
         const response: any = axios.get(`http://localhost:3000/api/messages/with/${focusedConversation}`, {
@@ -34,6 +35,19 @@ export default function MessageArea({focusedConversation}: Props) {
              setConversation(messages)
         }
     }
+
+    useEffect(() => {
+        async function getUser() {
+        const response: any = await axios.get("http://localhost:3000/api/authcheck", {
+            withCredentials: true
+        });
+        const user = response.data;
+        setUser(user);
+        console.log(user)
+    }
+    getUser()
+    }
+    , [])
 
     useEffect(() => {
         if (focusedConversation !== 0) {
@@ -67,18 +81,22 @@ export default function MessageArea({focusedConversation}: Props) {
 
     if (conversation) {
     return (
-        <Box height="100%" width="100%" bg="gray.900">
-            <Flex flexDirection="column" height="100%" alignItems="center" justifyContent="center">
+        <Box height="100%" width="100%" bg="gray.900" overflow="auto">
             <Stack>
-                {conversation.map(message => (
-                    <Box width="100%" p={4} borderRadius="md">
-                        <Text>{message.author.username}</Text>
-                        <Text>{message.content}</Text>
-                    </Box>
+                {conversation.map(message => {
+                    const isOwnMessage = message.author.username === user?.username;
+                
+                return (
+                    <Flex justify={isOwnMessage ? "end" : "start"} marginLeft={3} marginRight={3}>
+                        <Box width="60%" p={4} bg="blue.600" borderRadius="lg" margin={1}>
+                            <Text fontWeight="bold">{message.author.username}</Text>
+                            <Text>{message.content}</Text>
+                        </Box>
+                    </Flex>
                     )
+                }
                 )}
             </Stack>
-            </Flex>
         </Box>
     )}
 }
