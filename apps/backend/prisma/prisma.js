@@ -122,4 +122,58 @@ async function getProfile(userID) {
     return profile
 }
 
-module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends, getProfile }
+async function sendMessage(recipientID, authorID, message) {
+    await prisma.messages.create({
+        data: {
+            recipientID: recipientID,
+            authorID: authorID,
+            content: message,
+        }
+    })
+    return
+}
+
+async function findNonFriends(userID) {
+    const user = await prisma.users.findUnique({
+      where: { id: userID },
+      select: {
+        friends: { select: { id: true } },
+        friendsOf: { select: { id: true } }
+      }
+    });
+  
+    const friendIDs = new Set([
+      ...user.friends.map(f => f.id),
+      ...user.friendsOf.map(f => f.id)
+    ]);
+  
+    const nonFriends = await prisma.users.findMany({
+      where: {
+        AND: [
+          { id: { not: userID } },
+          { id: { notIn: Array.from(friendIDs) } }
+        ]
+      },
+      select: {
+        id: true,
+        username: true
+      }
+    });
+  
+    return nonFriends;
+  }
+  
+async function addFriend(userID, recipientID) {
+    await prisma.users.update({
+        where: {
+            id: userID
+        },
+        data: {
+            friends: {
+                connect: { id: recipientID }
+            }
+        }
+    });
+}
+
+module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends, getProfile, sendMessage, findNonFriends, addFriend }

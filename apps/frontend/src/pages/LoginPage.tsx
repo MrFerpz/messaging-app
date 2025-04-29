@@ -26,7 +26,7 @@ export default function LoginPage() {
         }, {
             withCredentials: true
         })
-        navigate("/home", {state: {message: "Successfully logged in"}})
+        navigate("/home")
     
     } catch(err) {
             console.log(err);

@@ -104,11 +104,25 @@ async function getProfile(req, res) {
     res.json(profileDetails)
 }
 
-// async function postMessage(req, res) {
-//     const message = req.body.message;
-//     will also need sender and recipient
-//     await prisma.sendMessage(message)
-// }
+async function sendMessage(req, res) {
+    const recipientID = req.body.recipientID;
+    const authorID = req.body.authorID;
+    const message = req.body.message;
+    await prisma.sendMessage(recipientID, authorID, message);
+    res.json("Success");
+}
+
+async function getNonFriends(req, res) {
+    const userID = Number(req.params.userID);
+    const nonFriends = await prisma.findNonFriends(userID);
+    res.json(nonFriends)
+}
+
+async function addFriend(req, res) {
+    const userID = Number(req.params.userID);
+    const recipientID = req.body.recipientID;
+    await prisma.addFriend(userID, recipientID);
+}
 
 module.exports = {
     getMessages,
@@ -119,5 +133,8 @@ module.exports = {
     getConversation,
     getUserID,
     getFriendsList,
-    getProfile
+    getProfile,
+    sendMessage,
+    getNonFriends,
+    addFriend
 }

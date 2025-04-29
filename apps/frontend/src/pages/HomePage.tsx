@@ -18,10 +18,28 @@ export default function HomePage() {
     const [loading, setLoading] = useState(true);
     const [focusedUser, setFocusedUser] = useState(0)
     const [toggleMessage, setToggleMessage] = useState(true);
+    const [message, setMessage] = useState("");
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    function sendMessage() {
-       
+    function messageTrack(e: any) {
+        setMessage(e.target.value)
     }
+
+    async function sendMessage(e: any) {
+        e.preventDefault();
+            try {
+            await axios.post("http://localhost:3000/api/message", {
+                message: message,
+                authorID: user?.id,
+                recipientID: focusedUser
+            }, {
+                withCredentials: true
+            });
+            setMessage("");
+            setRefreshTrigger(prev => prev + 1);
+        } catch(err) {
+            console.log(err)
+        }}
 
     function toolbarClickHandle() {
         if (toggleMessage) {
@@ -99,11 +117,11 @@ export default function HomePage() {
                                 <ProfilePane focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
-                                <MessageArea focusedConversation={focusedUser}/>
+                                <MessageArea currentUser={user} refresh={refreshTrigger} focusedConversation={focusedUser}/>
                             </GridItem>
                             {focusedUser ? (
                             <GridItem gridColumn="2" gridRow="3">
-                                <MessageInput sendMessage={sendMessage}/>
+                                <MessageInput messageTrack={messageTrack} sendMessage={sendMessage}/>
                             </GridItem>
                             ) : ""}
                             <GridItem gridColumn="3" gridRow="3">

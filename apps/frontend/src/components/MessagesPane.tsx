@@ -31,11 +31,10 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
         const res = await axios.get("http://localhost:3000/api/messages", {
             withCredentials: true
         });
-
+        
         const userID: any = await axios.get("http://localhost:3000/api/userID", {
             withCredentials: true
         });
-
 
         // way to get all received messages and authors
         function removeReceived(message: Message) {
