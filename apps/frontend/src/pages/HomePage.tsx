@@ -21,6 +21,10 @@ export default function HomePage() {
     const [message, setMessage] = useState("");
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+    function onFriendSelect(userID: number) {
+        setFocusedUser(userID)
+    }
+
     function messageTrack(e: any) {
         setMessage(e.target.value)
     }
@@ -104,7 +108,7 @@ export default function HomePage() {
                             </GridItem>
                             {toggleMessage ? (
                             <GridItem gridColumn="1" gridRow="2 / 4">
-                               <MessagesPane clickHandle={messageClickHandle}/>
+                               <MessagesPane onFriendSelect={onFriendSelect} user={user} clickHandle={messageClickHandle}/>
                             </GridItem>) : (
                             <GridItem gridColumn="1" gridRow="2 / 4">
                                 <FriendsPane user={user}/>
