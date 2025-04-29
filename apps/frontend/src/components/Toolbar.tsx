@@ -1,7 +1,8 @@
 import { Avatar, Box, Grid, Tabs } from "@chakra-ui/react";
 import { Link } from "react-router";
 
-export default function Toolbar() {
+export default function Toolbar({clickHandle}: any) {
+
     return (
         <Box width="100%" maxHeight="100px">
             <Grid gridTemplateColumns="1fr 4fr">
@@ -12,8 +13,8 @@ export default function Toolbar() {
                     </Link>
                     <Tabs.Root lazyMount unmountOnExit defaultValue="messages">
                         <Tabs.List>
-                            <Tabs.Trigger value="messages">Messages</Tabs.Trigger>
-                            <Tabs.Trigger value="friends">Friends</Tabs.Trigger>
+                            <Tabs.Trigger onClick={clickHandle} value="messages">Messages</Tabs.Trigger>
+                            <Tabs.Trigger onClick={clickHandle} value="friends">Friends</Tabs.Trigger>
                         </Tabs.List>
                         <Tabs.Content value="messages">
                             {/* backend logic needed to map from db here */}

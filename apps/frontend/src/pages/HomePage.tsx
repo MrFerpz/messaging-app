@@ -10,11 +10,21 @@ import MessagesTitleBar from "../components/MessagesTitleBar"
 import ProfilePane from "../components/ProfilePane"
 import MessageArea from "../components/MessageArea"
 import MessageInput from "../components/MessageInput"
+import FriendsPane from "../components/FriendsPane"
 
 export default function HomePage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [conversationWith, setConversationWith] = useState(0)
+    const [toggleMessage, setToggleMessage] = useState(true);
+
+    function toolbarClickHandle() {
+        if (toggleMessage) {
+            setToggleMessage(false)
+        } else {
+            setToggleMessage(true)
+        }
+    }
 
     interface User {
         id: number;
@@ -71,11 +81,16 @@ export default function HomePage() {
                     <Text>{message}</Text>
                         <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 3fr">
                             <GridItem gridColumn="1" gridRow="1">
-                                <Toolbar/>
+                                <Toolbar clickHandle={toolbarClickHandle}/>
                             </GridItem>
+                            {toggleMessage ? (
                             <GridItem gridColumn="1" gridRow="2 / 4">
                                <MessagesPane clickHandle={messageClickHandle}/>
-                            </GridItem>
+                            </GridItem>) : (
+                            <GridItem gridColumn="1" gridRow="2 / 4">
+                                <FriendsPane clickHandle={messageClickHandle}/>
+                            </GridItem>)
+                            }
                             <GridItem gridColumn="2" gridRow="1">
                                 <MessagesTitleBar/>
                             </GridItem>
