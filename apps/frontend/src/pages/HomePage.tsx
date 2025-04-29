@@ -1,7 +1,7 @@
 // imports
 import { Grid, GridItem, Text, Box, Button } from "@chakra-ui/react"
 import axios from "axios"
-import { useLocation, Link } from "react-router"
+import { Link } from "react-router"
 import { useEffect, useState } from "react"
 
 // components
@@ -35,9 +35,6 @@ export default function HomePage() {
     function messageClickHandle(id: number) {
         setFocusedUser(id);
     }
-
-    const location = useLocation();
-    const message = location.state?.message;
 
     useEffect(() => {
         authCheck()
@@ -79,7 +76,6 @@ export default function HomePage() {
     if (user) {
         return (
                 <div>
-                    <Text>{message}</Text>
                         <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="auto 5fr 3fr">
                             <GridItem gridColumn="1" gridRow="1">
                                 <Toolbar name={user.username} clickHandle={toolbarClickHandle}/>
