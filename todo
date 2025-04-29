@@ -1,7 +1,1 @@
-- Display the messages nicely in the pane & area
-    -- Figure out a reduce function that returns only the most recent message in MessagesPane
-- Display messages nicely in main area
-- Populate friend's profile ("ConversationWith" value is already lifted so should be set-up to go
-- Clean up UI
-- New message functionality
-- Profile page & CRUD
+- Final task: re-do the refresh logic!

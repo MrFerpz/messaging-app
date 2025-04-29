@@ -174,6 +174,39 @@ async function addFriend(userID, recipientID) {
             }
         }
     });
+
+    await prisma.users.update({
+        where: {
+            id: recipientID
+        },
+        data: {
+            friends: {
+                connect: { id: userID }
+            }
+        }
+    });
 }
 
-module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends, getProfile, sendMessage, findNonFriends, addFriend }
+async function postBio(userID, bio) {
+    await prisma.users.update({
+        where: {
+            id: userID
+        },
+        data: {
+            bio: bio
+        }
+    })
+}
+
+module.exports = { 
+    findAllMessages, 
+    signupUser, 
+    findUser,
+    getConversation, 
+    getFriends, 
+    getProfile, 
+    sendMessage, 
+    findNonFriends, 
+    addFriend,
+    postBio 
+}

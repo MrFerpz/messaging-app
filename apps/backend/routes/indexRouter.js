@@ -17,5 +17,6 @@ indexRouter.post("/api/signup", indexController.signup);
 indexRouter.post("/api/login", indexController.login);
 indexRouter.post("/api/message", indexController.sendMessage);
 indexRouter.post("/api/addfriend/:userID", indexController.addFriend);
+indexRouter.post("/api/bio/:userID", indexController.postBio)
 
 module.exports = indexRouter

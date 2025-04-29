@@ -38,7 +38,6 @@ export default function MessageArea({focusedConversation, refresh, currentUser}:
     }
 
     useEffect(() => {
-        console.log(refresh);
         if (focusedConversation !== 0) {
         getConversation()
         }

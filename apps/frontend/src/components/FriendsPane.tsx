@@ -48,10 +48,11 @@ export default function FriendsPane({user}: any) {
             console.log(err)
         }}
         findRemainingUsers(user.id);
-    }, [addFriendsList, refresh])
+    }, [refresh])
 
     async function friendRequest(recipientID: number) {
         try {
+        console.log("friend request sent");
         await axios.post(`http://localhost:3000/api/addfriend/${user.id}`, {
             recipientID: recipientID
         }, {
@@ -82,7 +83,7 @@ export default function FriendsPane({user}: any) {
             <Text fontWeight="bold">Your friends</Text>
         {friendsList.map((friend) => {
             return (
-                <Box _hover={{cursor: "pointer"}} key={friend.id} width="100%" p={3} bg="blue.900" margin={0.1} borderRadius="lg">
+                <Box key={friend.id} width="100%" p={3} bg="blue.900" margin={0.1} borderRadius="lg">
                     <Text fontWeight="bold">{friend.username}</Text>
                 </Box>
             )

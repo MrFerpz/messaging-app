@@ -21,6 +21,11 @@ export default function HomePage() {
     const [message, setMessage] = useState("");
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+    function setFocusToSelf() {
+        if (user)
+        setFocusedUser(user.id)
+    }
+
     function onFriendSelect(userID: number) {
         setFocusedUser(userID)
     }
@@ -55,7 +60,8 @@ export default function HomePage() {
 
     interface User {
         id: number;
-        username: string
+        username: string,
+        bio?: string
     }
 
     function messageClickHandle(id: number) {
@@ -79,7 +85,8 @@ export default function HomePage() {
 
         const user: User = {
             id: userDetails.data.id,
-            username: userDetails.data.username
+            username: userDetails.data.username,
+            bio: userDetails.data.bio
         }
         setUser(user);
 
@@ -104,7 +111,7 @@ export default function HomePage() {
                 <div>
                         <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="auto 4fr auto">
                             <GridItem gridColumn="1" gridRow="1">
-                                <Toolbar name={user.username} clickHandle={toolbarClickHandle}/>
+                                <Toolbar nameClick={setFocusToSelf} name={user.username} clickHandle={toolbarClickHandle}/>
                             </GridItem>
                             {toggleMessage ? (
                             <GridItem gridColumn="1" gridRow="2 / 4">
@@ -115,10 +122,10 @@ export default function HomePage() {
                             </GridItem>)
                             }
                             <GridItem gridColumn="2" gridRow="1">
-                                <MessagesTitleBar name={user.username}/>
+                                <MessagesTitleBar onClick={setFocusToSelf} name={user.username}/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="1 / 4">
-                                <ProfilePane focusedUserID={focusedUser}/>
+                                <ProfilePane user={user} focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
                                 <MessageArea currentUser={user} refresh={refreshTrigger} focusedConversation={focusedUser}/>

@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react"
-import { Box, Text, Avatar, Flex } from "@chakra-ui/react";
+import { Box, Text, Avatar, Flex, Button } from "@chakra-ui/react";
+import BioPopup from "../components/BioPopup"
 import axios from "axios"
 
 interface User {
     username: string;
-    bio: string;
-    id: string
+    bio?: string;
+    id: number
 }
 
 type ProfilePaneProps = {
-    focusedUserID: number
+    focusedUserID: number,
+    user: User
 }
 
-export default function ProfilePane({focusedUserID} : ProfilePaneProps) {
+export default function ProfilePane({focusedUserID, user} : ProfilePaneProps) {
 
-    const [userProfile, setUserProfile] = useState<User | null>(null)
+    const [userProfile, setUserProfile] = useState<User | null>(null);
+    const [bioPopupVisible, setBioPopupVisible] = useState(false);
+
+    function toggleBioPopup() {
+        if (bioPopupVisible) {
+            setBioPopupVisible(false)
+        } else {
+            setBioPopupVisible(true);
+        }
+    }
 
     useEffect(() => {
         async function getProfile(userID: number) {
@@ -29,6 +40,7 @@ export default function ProfilePane({focusedUserID} : ProfilePaneProps) {
     }, [focusedUserID])
 
     if (userProfile) {
+        const isSelf = userProfile.id === user.id
         return (
             <Box width="200px" height="100vh" bg="blackAlpha.950" p={6}>
                     <Avatar.Root marginBottom="10px" _hover={{opacity: "0.8"}} shape="rounded" size="lg" variant="solid">
@@ -42,6 +54,12 @@ export default function ProfilePane({focusedUserID} : ProfilePaneProps) {
                         ): (
                             <Text fontSize="0.7rem">{userProfile.username} has not written a biography yet.</Text>
                         )}
+                        {isSelf ? (
+                            <Flex height="50%" justifyContent="center" alignItems="end" p={4}>
+                                <Button onClick={() => toggleBioPopup()}fontSize="0.8rem" marginBottom="50px" p={3} bg="whiteAlpha.950">Edit your bio</Button>
+                            </Flex> 
+                        ) : null}
+                        {bioPopupVisible ? <BioPopup setVisibility={toggleBioPopup} userID={user.id}/> : null}
                     </Box>
             </Box>
         )

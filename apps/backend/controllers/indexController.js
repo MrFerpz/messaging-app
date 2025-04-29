@@ -124,6 +124,12 @@ async function addFriend(req, res) {
     await prisma.addFriend(userID, recipientID);
 }
 
+async function postBio(req, res) {
+    const userID = Number(req.params.userID);
+    const bio = req.body.bio;
+    await prisma.postBio(userID, bio)
+}
+
 module.exports = {
     getMessages,
     signup,
@@ -136,5 +142,6 @@ module.exports = {
     getProfile,
     sendMessage,
     getNonFriends,
-    addFriend
+    addFriend,
+    postBio
 }

@@ -33,7 +33,6 @@ export default function MessagesPane({clickHandle, user, onFriendSelect}: Messag
 
     function toggleVisibility() {
         setPopup(false);
-        console.log("popup is" + popup)
     }
 
     async function getMessages() {
