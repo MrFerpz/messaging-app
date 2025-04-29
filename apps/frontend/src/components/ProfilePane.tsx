@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Box, Text, Avatar } from "@chakra-ui/react";
+import { Box, Text, Avatar, Flex } from "@chakra-ui/react";
 import axios from "axios"
 
 interface User {
@@ -50,7 +50,9 @@ export default function ProfilePane({focusedUserID} : ProfilePaneProps) {
     else {
         return (
             <Box width="200px" height="100vh" bg="blackAlpha.950">
-                <Text>No user selected.</Text>
+                <Flex height="100%" justifyContent="center" alignItems="center">
+                    <Text>No user selected.</Text>
+                </Flex>
             </Box>
         )
     }

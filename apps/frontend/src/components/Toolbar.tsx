@@ -10,24 +10,23 @@ export default function Toolbar({clickHandle, name} : ToolbarProps) {
 
     return (
         <Box width="100%" maxHeight="100px">
-            <Grid gridTemplateColumns="1fr 4fr">
-                    <Link to="/profile">
-                        <Avatar.Root _hover={{opacity: "0.8"}} shape="rounded" size="lg" variant="solid">
-                            <Avatar.Fallback name={name}/>
-                        </Avatar.Root>
-                    </Link>
-                    <Tabs.Root lazyMount unmountOnExit defaultValue="messages">
-                        <Tabs.List>
-                            <Tabs.Trigger onClick={clickHandle} value="messages">Messages</Tabs.Trigger>
-                            <Tabs.Trigger onClick={clickHandle} value="friends">Friends</Tabs.Trigger>
-                        </Tabs.List>
-                        <Tabs.Content value="messages">
-                            {/* backend logic needed to map from db here */}
-                        </Tabs.Content>
-                        <Tabs.Content value="friends">
-                        </Tabs.Content>
-                    </Tabs.Root>
-            </Grid>
+                <Grid bgColor="blackAlpha.900" gridTemplateColumns="1fr 4fr">
+                        <Link to="/profile">
+                            <Avatar.Root margin={2} _hover={{opacity: "0.8"}} padding={2} shape="rounded" size="sm" variant="solid">
+                                <Avatar.Fallback name={name}/>
+                            </Avatar.Root>
+                        </Link>
+                        <Tabs.Root margin={2} lazyMount unmountOnExit defaultValue="messages">
+                            <Tabs.List>
+                                <Tabs.Trigger width="100%" p={4} onClick={clickHandle} value="messages">Messages</Tabs.Trigger>
+                                <Tabs.Trigger width="100%" p={4} onClick={clickHandle} value="friends">Friends</Tabs.Trigger>
+                            </Tabs.List>
+                            <Tabs.Content height="0px" p={0} value="messages">
+                            </Tabs.Content>
+                            <Tabs.Content height="0px" p={0} value="friends">
+                            </Tabs.Content>
+                        </Tabs.Root>
+                </Grid>
         </Box>
     )
 }

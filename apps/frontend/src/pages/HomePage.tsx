@@ -80,7 +80,7 @@ export default function HomePage() {
         return (
                 <div>
                     <Text>{message}</Text>
-                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 3fr">
+                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="auto 5fr 3fr">
                             <GridItem gridColumn="1" gridRow="1">
                                 <Toolbar name={user.username} clickHandle={toolbarClickHandle}/>
                             </GridItem>
@@ -105,7 +105,7 @@ export default function HomePage() {
                                 <MessageInput/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="3">
-                                <Button onClick={logOut}>Log out</Button>
+                                <Button bg="whiteAlpha.900" onClick={logOut}>Log out</Button>
                             </GridItem>
                         </Grid>
                 </div>

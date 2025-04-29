@@ -43,7 +43,6 @@ export default function MessageArea({focusedConversation}: Props) {
         });
         const user = response.data;
         setUser(user);
-        console.log(user)
     }
     getUser()
     }
@@ -87,7 +86,7 @@ export default function MessageArea({focusedConversation}: Props) {
                     const isOwnMessage = message.author.username === user?.username;
                 
                 return (
-                    <Flex justify={isOwnMessage ? "end" : "start"} marginLeft={3} marginRight={3}>
+                    <Flex key={message.id} justify={isOwnMessage ? "end" : "start"} marginLeft={3} marginRight={3}>
                         <Box width="60%" p={4} bg="blue.600" borderRadius="lg" margin={1}>
                             <Text fontWeight="bold">{message.author.username}</Text>
                             <Text>{message.content}</Text>
