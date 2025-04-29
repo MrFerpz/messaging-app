@@ -1,4 +1,4 @@
-import { Box, Separator, Stack, Text, Button } from "@chakra-ui/react"
+import { Box, Separator, Stack, Text, Button, Skeleton } from "@chakra-ui/react"
 import axios from "axios"
 import { useState, useEffect } from "react";
 
@@ -67,7 +67,11 @@ export default function MessagesPane({clickHandle}: MessagesPaneProps) {
 
     if (loading) {
         return (
-            <div>Loading...</div>
+            <Box>
+                <Skeleton height="80px"></Skeleton>
+                <Skeleton height="80px"></Skeleton>
+                <Skeleton height="80px"></Skeleton>
+            </Box>
         )
     }
 

@@ -90,4 +90,21 @@ async function getConversation(primaryID, secondaryID) {
     return conversation
 }
 
-module.exports = { findAllMessages, signupUser, findUser, getConversation }
+async function getFriends(userID) {
+    const friendsList = await prisma.users.findUnique({
+        where: {
+            id: userID
+        },
+        include: {
+            friends: {
+                select: {
+                    username: true,
+                    id: true
+                }
+            }
+        }
+    })
+    return friendsList.friends
+}
+
+module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends }

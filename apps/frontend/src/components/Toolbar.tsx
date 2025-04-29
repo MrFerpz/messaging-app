@@ -1,14 +1,19 @@
 import { Avatar, Box, Grid, Tabs } from "@chakra-ui/react";
 import { Link } from "react-router";
 
-export default function Toolbar({clickHandle}: any) {
+type ToolbarProps = {
+    clickHandle: () => void;
+    name: string
+};
+
+export default function Toolbar({clickHandle, name} : ToolbarProps) {
 
     return (
         <Box width="100%" maxHeight="100px">
             <Grid gridTemplateColumns="1fr 4fr">
                     <Link to="/profile">
                         <Avatar.Root _hover={{opacity: "0.8"}} shape="rounded" size="lg" variant="solid">
-                            <Avatar.Fallback name="Test User"/>
+                            <Avatar.Fallback name={name}/>
                         </Avatar.Root>
                     </Link>
                     <Tabs.Root lazyMount unmountOnExit defaultValue="messages">

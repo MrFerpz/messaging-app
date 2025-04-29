@@ -3,6 +3,7 @@ import { Grid, GridItem, Text, Box, Button } from "@chakra-ui/react"
 import axios from "axios"
 import { useLocation, Link } from "react-router"
 import { useEffect, useState } from "react"
+
 // components
 import Toolbar from "../components/Toolbar"
 import MessagesPane from "../components/MessagesPane"
@@ -81,18 +82,18 @@ export default function HomePage() {
                     <Text>{message}</Text>
                         <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="1fr 5fr 3fr">
                             <GridItem gridColumn="1" gridRow="1">
-                                <Toolbar clickHandle={toolbarClickHandle}/>
+                                <Toolbar name={user.username} clickHandle={toolbarClickHandle}/>
                             </GridItem>
                             {toggleMessage ? (
                             <GridItem gridColumn="1" gridRow="2 / 4">
                                <MessagesPane clickHandle={messageClickHandle}/>
                             </GridItem>) : (
                             <GridItem gridColumn="1" gridRow="2 / 4">
-                                <FriendsPane clickHandle={messageClickHandle}/>
+                                <FriendsPane user={user}/>
                             </GridItem>)
                             }
                             <GridItem gridColumn="2" gridRow="1">
-                                <MessagesTitleBar/>
+                                <MessagesTitleBar name={user.username}/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="1 / 4">
                                 <ProfilePane/>

@@ -92,6 +92,12 @@ async function getConversation(req, res) {
     res.json(conversation);
 }
 
+async function getFriendsList(req, res) {
+    const userID = Number(req.params.userID);
+    const friendsList = await prisma.getFriends(userID);
+    res.json(friendsList)
+}
+
 // async function postMessage(req, res) {
 //     const message = req.body.message;
 //     will also need sender and recipient
@@ -105,5 +111,6 @@ module.exports = {
     logout,
     checkLoggedIn,
     getConversation,
-    getUserID
+    getUserID,
+    getFriendsList
 }
