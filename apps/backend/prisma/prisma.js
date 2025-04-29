@@ -70,7 +70,7 @@ async function getConversation(primaryID, secondaryID) {
                 }
             ]
         }, 
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
         include: { 
             author: {
                 select: {
