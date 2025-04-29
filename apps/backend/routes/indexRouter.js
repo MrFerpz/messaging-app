@@ -9,6 +9,7 @@ indexRouter.get("/api/authcheck", indexController.checkLoggedIn);
 indexRouter.get("/api/logout", indexController.logout);
 indexRouter.get("/api/messages/with/:userID", indexController.getConversation);
 indexRouter.get("/api/userID", indexController.getUserID)
-indexRouter.get("/api/friends/:userID", indexController.getFriendsList)
+indexRouter.get("/api/friends/:userID", indexController.getFriendsList);
+indexRouter.get("/api/profile/:userID", indexController.getProfile);
 
 module.exports = indexRouter

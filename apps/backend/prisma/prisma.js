@@ -107,4 +107,19 @@ async function getFriends(userID) {
     return friendsList.friends
 }
 
-module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends }
+async function getProfile(userID) {
+    const profile = await prisma.users.findUnique({
+        where: {
+            id: userID
+        },
+        select: {
+            username: true,
+            bio: true,
+            id: true
+        }
+    })
+
+    return profile
+}
+
+module.exports = { findAllMessages, signupUser, findUser, getConversation, getFriends, getProfile }

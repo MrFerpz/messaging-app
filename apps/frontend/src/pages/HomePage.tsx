@@ -16,7 +16,7 @@ import FriendsPane from "../components/FriendsPane"
 export default function HomePage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const [conversationWith, setConversationWith] = useState(0)
+    const [focusedUser, setFocusedUser] = useState(0)
     const [toggleMessage, setToggleMessage] = useState(true);
 
     function toolbarClickHandle() {
@@ -33,7 +33,7 @@ export default function HomePage() {
     }
 
     function messageClickHandle(id: number) {
-        setConversationWith(id);
+        setFocusedUser(id);
     }
 
     const location = useLocation();
@@ -96,10 +96,10 @@ export default function HomePage() {
                                 <MessagesTitleBar name={user.username}/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="1 / 4">
-                                <ProfilePane/>
+                                <ProfilePane focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
-                                <MessageArea focusedConversation={conversationWith}/>
+                                <MessageArea focusedConversation={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="3">
                                 <MessageInput/>
