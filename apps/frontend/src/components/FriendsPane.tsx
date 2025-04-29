@@ -46,7 +46,7 @@ export default function FriendsPane({user}: any) {
                 </Box>
             )
         })}
-        <Button bg="whiteAlpha.950">Add Friends</Button>
+        <Button bg="whiteAlpha.950">Add friends</Button>
         </Stack>
         </Box>
     )

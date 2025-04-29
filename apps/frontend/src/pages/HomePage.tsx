@@ -19,6 +19,10 @@ export default function HomePage() {
     const [focusedUser, setFocusedUser] = useState(0)
     const [toggleMessage, setToggleMessage] = useState(true);
 
+    function sendMessage() {
+       
+    }
+
     function toolbarClickHandle() {
         if (toggleMessage) {
             setToggleMessage(false)
@@ -76,7 +80,7 @@ export default function HomePage() {
     if (user) {
         return (
                 <div>
-                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="auto 5fr 3fr">
+                        <Grid gridTemplateColumns="1fr 6fr 1fr" gridTemplateRows="auto 4fr auto">
                             <GridItem gridColumn="1" gridRow="1">
                                 <Toolbar name={user.username} clickHandle={toolbarClickHandle}/>
                             </GridItem>
@@ -97,9 +101,11 @@ export default function HomePage() {
                             <GridItem gridColumn="2" gridRow="2">
                                 <MessageArea focusedConversation={focusedUser}/>
                             </GridItem>
+                            {focusedUser ? (
                             <GridItem gridColumn="2" gridRow="3">
-                                <MessageInput/>
+                                <MessageInput sendMessage={sendMessage}/>
                             </GridItem>
+                            ) : ""}
                             <GridItem gridColumn="3" gridRow="3">
                                 <Button bg="whiteAlpha.900" onClick={logOut}>Log out</Button>
                             </GridItem>
