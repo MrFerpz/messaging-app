@@ -12,9 +12,11 @@ interface User {
 type ProfilePaneProps = {
     focusedUserID: number,
     user: User,
+    triggerRefresh: any,
+    refreshCounter: number
 }
 
-export default function ProfilePane({focusedUserID, user} : ProfilePaneProps) {
+export default function ProfilePane({focusedUserID, user, triggerRefresh, refreshCounter} : ProfilePaneProps) {
 
     const [userProfile, setUserProfile] = useState<User | null>(null);
     const [bioPopupVisible, setBioPopupVisible] = useState(false);
@@ -37,7 +39,7 @@ export default function ProfilePane({focusedUserID, user} : ProfilePaneProps) {
             setUserProfile(userProfile);
         }
         getProfile(focusedUserID);
-    }, [focusedUserID])
+    }, [focusedUserID, refreshCounter])
 
     if (userProfile) {
         const isSelf = userProfile.id === user.id
@@ -59,7 +61,7 @@ export default function ProfilePane({focusedUserID, user} : ProfilePaneProps) {
                                 <Button onClick={() => toggleBioPopup()}fontSize="0.8rem" marginBottom="50px" p={3} bg="whiteAlpha.950">Edit your bio</Button>
                             </Flex> 
                         ) : null}
-                        {bioPopupVisible ? <BioPopup setVisibility={toggleBioPopup} userID={user.id}/> : null}
+                        {bioPopupVisible ? <BioPopup triggerRefresh={triggerRefresh} setVisibility={toggleBioPopup} userID={user.id}/> : null}
                     </Box>
             </Box>
         )

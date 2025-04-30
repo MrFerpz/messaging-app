@@ -6,9 +6,10 @@ import { useState } from "react"
 type Props = {
     userID: number,
     setVisibility: any,
+    triggerRefresh: any
 }
 
-export default function BioPopup({userID, setVisibility}: Props) {
+export default function BioPopup({userID, setVisibility, triggerRefresh}: Props) {
     const [bio, setBio] = useState("");
 
     function trackBio(e: any) {
@@ -28,7 +29,7 @@ export default function BioPopup({userID, setVisibility}: Props) {
             <Flex justifyContent="end"><Box _hover={{cursor: "pointer"}}><IoIosCloseCircle fontSize="2rem" onClick={setVisibility}/></Box></Flex>
                 <Text marginBottom="10px" fontWeight="bold">Write your bio below...</Text>
                 <Box height="100%">
-                    <form onSubmit={(e) => {postBio(e); setVisibility()}}>
+                    <form onSubmit={(e) => {postBio(e); setVisibility(); triggerRefresh(e)}}>
                         <Textarea autoresize bg="blackAlpha.950" onChange={trackBio} size="xl" height="100%"></Textarea>
                         <Button marginTop="10px" bg="white" type="submit">Submit Bio</Button>
                     </form>

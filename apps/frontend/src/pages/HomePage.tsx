@@ -129,7 +129,7 @@ export default function HomePage() {
                                 <MessagesTitleBar onClick={setFocusToSelf} name={user.username}/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="1 / 4">
-                                <ProfilePane user={user} focusedUserID={focusedUser}/>
+                                <ProfilePane refreshCounter={refreshCounter} triggerRefresh={triggerRefresh} user={user} focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
                                 <MessageArea refreshCounter={refreshCounter} currentUser={user} focusedConversation={focusedUser}/>
