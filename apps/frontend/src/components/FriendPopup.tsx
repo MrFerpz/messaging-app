@@ -24,7 +24,7 @@ export default function FriendPopup({friendsList, onFriendSelect, toggleVisibili
                     {friendsList.map(friend => {
                         return (
                             <>
-                                <Text color="whiteAlpha.800" onClick={() => {onFriendSelect(friend.id); toggleVisibility()}} _hover={{cursor: "pointer", opacity: "0.9", transform: "scale(1.03)"}} p={2} borderRadius="md" bg="blue.600">{friend.username}</Text>
+                                <Text key={(friend.id)} color="whiteAlpha.800" onClick={() => {onFriendSelect(friend.id); toggleVisibility()}} _hover={{cursor: "pointer", opacity: "0.9", transform: "scale(1.03)"}} p={2} borderRadius="md" bg="blue.600">{friend.username}</Text>
                             </>
                         )
                     })}

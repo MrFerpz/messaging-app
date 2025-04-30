@@ -13,55 +13,54 @@ export default function FriendsPane({user}: any) {
     const [friendsList, setFriendsList] = useState<User[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [nonFriends, setNonFriends] = useState<User[] | null>(null);
-    const [refresh, setRefresh] = useState(0);
+    const [requestCounter, setRequestCounter] = useState(0)
 
-
-    useEffect(() => {
-        async function getFriends(userID: User["id"]) {
-            setLoading(true); 
-            try {
-            const response = await axios.get(`http://localhost:3000/api/friends/${userID}`, {
-                withCredentials: true
-            });
-            const friendsList = response.data;
-            setFriendsList(friendsList);
-            setLoading(false)
-        } catch(err) {
-        console.log(err)
+    // for the friends
+    async function getFriends(userID: User["id"]) {
+        setLoading(true); 
+        try {
+        const response = await axios.get(`http://localhost:3000/api/friends/${userID}`, {
+            withCredentials: true
+        });
+        const friendsList = response.data;
+        setFriendsList(friendsList);
+        setLoading(false)
+    } catch(err) {
+    console.log(err)
     }};
 
-    getFriends(user.id);
-    }, [refresh]);
+    // for the rest
+    async function findRemainingUsers(userID: User["id"]) {
+        try {
+        const res = await axios.get(`http://localhost:3000/api/nonfriends/${userID}`, {
+            withCredentials: true
+        });
+        setNonFriends(res.data);
+    } catch(err) {
+        console.log(err)
+    }}
 
+    // trigger on first mount and when requests are sent
     useEffect(() => {
-        async function findRemainingUsers(userID: User["id"]) {
-            try {
-            const res = await axios.get(`http://localhost:3000/api/nonfriends/${userID}`, {
-                withCredentials: true
-            });
-            setNonFriends(res.data);
-        } catch(err) {
-            console.log(err)
-        }}
+        getFriends(user.id);
         findRemainingUsers(user.id);
-    }, [refresh])
+    }, [requestCounter]);
 
     async function friendRequest(recipientID: number) {
         try {
-        console.log("friend request sent");
+        // add new friends
+        setRequestCounter(prev => prev + 1)
         await axios.post(`http://localhost:3000/api/addfriend/${user.id}`, {
             recipientID: recipientID
         }, {
             withCredentials: true
         });
-        setRefresh(prev => prev + 1);
-        console.log(refresh);
     } catch(err) {
         console.log(err)
         }
     }
 
-    if (loading) {
+    if (loading || (friendsList === null)) {
         return (
             <Box>
                 <Skeleton height="80px"></Skeleton>
@@ -71,7 +70,6 @@ export default function FriendsPane({user}: any) {
         )
     }
 
-    if (friendsList) {
     return (
         <Box p={4} position="relative" zIndex="0" height="100%" bgColor="blackAlpha.800">
         <Stack>
@@ -98,10 +96,9 @@ export default function FriendsPane({user}: any) {
                     })}
             </>
         ) : (
-            <Button bg="whiteAlpha.950">Add friends</Button>
-        )}
+                <Button bg="whiteAlpha.950">Add friends</Button>
+            )}
         </Stack>
         </Box>
-         )
-        }
+    )
 }
