@@ -19,6 +19,12 @@ export default function HomePage() {
     const [focusedUser, setFocusedUser] = useState(0)
     const [toggleMessage, setToggleMessage] = useState(true);
     const [message, setMessage] = useState("");
+    const [refreshCounter, setRefreshCounter] = useState(0);
+
+    function triggerRefresh(e: any) {
+        e.preventDefault();
+        setRefreshCounter(prev => prev + 1)
+    }
 
     function setFocusToSelf() {
         if (user)
@@ -126,11 +132,11 @@ export default function HomePage() {
                                 <ProfilePane user={user} focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
-                                <MessageArea currentUser={user} focusedConversation={focusedUser}/>
+                                <MessageArea refreshCounter={refreshCounter} currentUser={user} focusedConversation={focusedUser}/>
                             </GridItem>
                             {focusedUser ? (
                             <GridItem gridColumn="2" gridRow="3">
-                                <MessageInput messageTrack={messageTrack} sendMessage={sendMessage}/>
+                                <MessageInput triggerRefresh={triggerRefresh} messageTrack={messageTrack} sendMessage={sendMessage}/>
                             </GridItem>
                             ) : ""}
                             <GridItem gridColumn="3" gridRow="3">

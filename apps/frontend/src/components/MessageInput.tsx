@@ -3,15 +3,16 @@ import { IoMdSend } from "react-icons/io";
 
 type MessageProps = {
     sendMessage: any,
-    messageTrack: any
+    messageTrack: any,
+    triggerRefresh: any
 }
 
-export default function MessageInput({sendMessage, messageTrack}: MessageProps) {
+export default function MessageInput({sendMessage, messageTrack, triggerRefresh}: MessageProps) {
 
     return (
             <Flex justifyContent="center" alignItems="center" width="100%" height="120px">
                 <Box width="80%">
-                    <form onSubmit={sendMessage}>
+                    <form onSubmit={(e) => {sendMessage(e); triggerRefresh(e)}}>
                         <Flex>
                         <Field.Root>
                             <Textarea onChange={messageTrack} size="sm" borderRadius="md" flex="1" bg="blackAlpha.950" autoresize name="message"/>

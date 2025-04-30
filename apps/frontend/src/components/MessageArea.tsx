@@ -4,7 +4,8 @@ import axios from "axios";
 
 interface Props {
     focusedConversation: number,
-    currentUser: User
+    currentUser: User,
+    refreshCounter: number
 }
 
 interface Message {
@@ -19,10 +20,10 @@ interface Message {
 
 interface User {
     id: number,
-    username: string
+    username: string,
 }
 
-export default function MessageArea({focusedConversation, currentUser}: Props) {
+export default function MessageArea({focusedConversation, currentUser, refreshCounter}: Props) {
     const [conversation, setConversation] = useState<Message[] | null>(null)
 
     async function getConversation() {
@@ -38,9 +39,11 @@ export default function MessageArea({focusedConversation, currentUser}: Props) {
 
     useEffect(() => {
         if (focusedConversation !== 0) {
-        getConversation()
+            getConversation()
         }
-    }, [focusedConversation])
+        // I want to add a dependency for when a new message is sent from MessageInput.
+        // I should do this from HomePage (shared parent of MessageArea and MessageInput).
+    }, [focusedConversation, refreshCounter])
 
     if (!focusedConversation) {
         return (
