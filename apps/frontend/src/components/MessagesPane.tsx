@@ -6,7 +6,8 @@ import FriendPopup from "../components/FriendPopup"
 interface MessagesPaneProps {
     clickHandle: (id: number) => void,
     user: User,
-    onFriendSelect: any
+    onFriendSelect: any,
+    refreshCounter: number
 }
 
 interface Message {
@@ -16,7 +17,8 @@ interface Message {
     recipient: User,
     recipientID: number,
     createdAt: Date,
-    content: string
+    content: string,
+    convKey?: string
 }
 
 interface User {
@@ -24,7 +26,7 @@ interface User {
     username: string
 }
 
-export default function MessagesPane({clickHandle, user, onFriendSelect}: MessagesPaneProps) {
+export default function MessagesPane({clickHandle, user, onFriendSelect, refreshCounter}: MessagesPaneProps) {
 
     const [messages, setMessages] = useState<Message[] | null>(null)
     const [loading, setLoading] = useState(true)
@@ -41,22 +43,41 @@ export default function MessagesPane({clickHandle, user, onFriendSelect}: Messag
             withCredentials: true
         });
 
-        // way to get all received messages and authors
-        function removeReceived(message: Message) {
-            return message.authorID !== user.id
-        }
-        const filteredMessages = res.data.filter(removeReceived);
+        // I need one message per CONVERSATION
+        // What is a conversation?
+        // authorID = x && recipientID = y || authorID = y && recipientID = x
 
-        const reducedMessages = filteredMessages.reduce((acc: Message[], current: Message) => {
-            // check if current author exists in the accumulator array
-            if (!acc.some((message: Message) => message.author.username === current.author.username))
-            // if they don't exist, add message to the accumulator
-            acc.push(current);
-            return acc;
-        // initial value is empty array []
-        }, []);
 
-        setMessages(reducedMessages);
+        const messages = res.data;
+
+        const onePerRecipient: Message[] = messages.reduce(
+            (acc: Message[], current: Message) => {
+                if (!acc.some(message => message.recipientID === current.recipientID)) {
+                    acc.push(current);
+                }
+                return acc;
+        },[]);
+
+        // add a key to each message (9-13)
+        const getConversationKey = (a: number, b: number) => {
+            return [a, b].sort().join("-")
+        };
+
+        onePerRecipient.map((message) => {
+            // assign keys to each message object
+            let conversationKey = getConversationKey(message.authorID, message.recipientID);
+            message.convKey = conversationKey;
+        })
+
+        let onePerConversation: any = onePerRecipient.reduce(
+                (acc: any, current: any) => {
+                    if (!acc.some((message: any) => message.convKey === current.convKey)) {
+                        acc.push(current)
+                    }
+                    return acc
+            },[])
+
+        setMessages(onePerConversation);
 
         } catch(err) {
             console.log(err);
@@ -73,7 +94,7 @@ export default function MessagesPane({clickHandle, user, onFriendSelect}: Messag
 
     useEffect(() => {
         getMessages();
-    }, [])
+    }, [refreshCounter])
 
     if (loading) {
         return (
@@ -90,12 +111,23 @@ export default function MessagesPane({clickHandle, user, onFriendSelect}: Messag
             <>
             <Box p={4} position="relative" zIndex="0" height="100%" bgColor="blackAlpha.800">
                 <Stack>
-                    {messages.map(message => (
-                        <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
-                            <Text fontWeight="bolder">{message.author.username}</Text>
-                            <Text fontSize="0.7rem">{message.content}</Text>
-                        </Box>
-                    ))
+                    {messages.map((message) => {
+                        let youSent = message.author.username === user.username;
+                        if (youSent) {
+                            return (
+                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
+                                    <Text fontWeight="bolder">{message.recipient.username}</Text>
+                                     <Text fontSize="0.7rem">({message.content})</Text>
+                                </Box>
+                            )
+                        }
+                        else return (
+                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
+                                    <Text fontWeight="bolder">{message.author.username}</Text>
+                                    <Text fontWeight="bold" fontSize="0.7rem">{message.content}</Text>
+                                </Box>
+                            )
+                        })
                     }
                     <Button height="2rem" bg="whiteAlpha.900" onClick={openFriendsPopup}>New message</Button>
                 </Stack>

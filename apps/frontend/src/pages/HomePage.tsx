@@ -49,7 +49,6 @@ export default function HomePage() {
             }, {
                 withCredentials: true
             });
-            setMessage("");
         } catch(err) {
             console.log(err)
         }}
@@ -119,7 +118,7 @@ export default function HomePage() {
                             </GridItem>
                             {toggleMessage ? (
                             <GridItem gridColumn="1" gridRow="2 / 4">
-                               <MessagesPane onFriendSelect={onFriendSelect} user={user} clickHandle={messageClickHandle}/>
+                               <MessagesPane refreshCounter={refreshCounter} onFriendSelect={onFriendSelect} user={user} clickHandle={messageClickHandle}/>
                             </GridItem>) : (
                             <GridItem gridColumn="1" gridRow="2 / 4">
                                 <FriendsPane user={user}/>
