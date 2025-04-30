@@ -73,13 +73,13 @@ export default function MessageArea({focusedConversation, currentUser, refreshCo
     if (conversation) {
     return (
         <Box height="100%" width="100%" bg="gray.900" overflow="scroll">
-            <Stack>
+            <Stack marginTop="20px">
                 {conversation.map(message => {
                     const isOwnMessage = message.author.username === currentUser?.username;
                 
                 return (
                     <Flex key={message.id} justify={isOwnMessage ? "end" : "start"} marginLeft={3} marginRight={3}>
-                        <Box width="60%" p={4} bg="blue.600" borderRadius="lg" margin={1}>
+                        <Box width="60%" height="auto" p={2} bg="blue.600" borderRadius="lg" margin={1}>
                             <Text fontWeight="bold">{message.author.username}</Text>
                             <Text>{message.content}</Text>
                         </Box>

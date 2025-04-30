@@ -1,1 +1,8 @@
-- Final task: re-do the refresh logic!
+- Re-do the refresh logic for: friends list, message pane, biography
+    - maybe lift all state
+    - at worst refresh entire homepage
+- Add sent messages to pane
+
+---
+- Add x buttons to add bio and new message
+- Explicit "your profile" button perhaps
