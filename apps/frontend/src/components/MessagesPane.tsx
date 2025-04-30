@@ -93,7 +93,7 @@ export default function MessagesPane({clickHandle, user, onFriendSelect}: Messag
                     {messages.map(message => (
                         <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
                             <Text fontWeight="bolder">{message.author.username}</Text>
-                            <div>{message.content}</div>
+                            <Text fontSize="0.7rem">{message.content}</Text>
                         </Box>
                     ))
                     }
