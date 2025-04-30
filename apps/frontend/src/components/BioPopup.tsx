@@ -5,7 +5,7 @@ import { useState } from "react"
 
 type Props = {
     userID: number,
-    setVisibility: any
+    setVisibility: any,
 }
 
 export default function BioPopup({userID, setVisibility}: Props) {

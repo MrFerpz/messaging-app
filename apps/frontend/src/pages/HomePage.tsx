@@ -19,7 +19,6 @@ export default function HomePage() {
     const [focusedUser, setFocusedUser] = useState(0)
     const [toggleMessage, setToggleMessage] = useState(true);
     const [message, setMessage] = useState("");
-    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     function setFocusToSelf() {
         if (user)
@@ -45,7 +44,6 @@ export default function HomePage() {
                 withCredentials: true
             });
             setMessage("");
-            setRefreshTrigger(prev => prev + 1);
         } catch(err) {
             console.log(err)
         }}
@@ -125,10 +123,10 @@ export default function HomePage() {
                                 <MessagesTitleBar onClick={setFocusToSelf} name={user.username}/>
                             </GridItem>
                             <GridItem gridColumn="3" gridRow="1 / 4">
-                                <ProfilePane refresh={refreshTrigger} user={user} focusedUserID={focusedUser}/>
+                                <ProfilePane user={user} focusedUserID={focusedUser}/>
                             </GridItem>
                             <GridItem gridColumn="2" gridRow="2">
-                                <MessageArea currentUser={user} refresh={refreshTrigger} focusedConversation={focusedUser}/>
+                                <MessageArea currentUser={user} focusedConversation={focusedUser}/>
                             </GridItem>
                             {focusedUser ? (
                             <GridItem gridColumn="2" gridRow="3">

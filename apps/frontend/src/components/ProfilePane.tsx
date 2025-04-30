@@ -12,10 +12,9 @@ interface User {
 type ProfilePaneProps = {
     focusedUserID: number,
     user: User,
-    refresh: any
 }
 
-export default function ProfilePane({focusedUserID, user, refresh} : ProfilePaneProps) {
+export default function ProfilePane({focusedUserID, user} : ProfilePaneProps) {
 
     const [userProfile, setUserProfile] = useState<User | null>(null);
     const [bioPopupVisible, setBioPopupVisible] = useState(false);
@@ -38,7 +37,7 @@ export default function ProfilePane({focusedUserID, user, refresh} : ProfilePane
             setUserProfile(userProfile);
         }
         getProfile(focusedUserID);
-    }, [focusedUserID, refresh])
+    }, [focusedUserID])
 
     if (userProfile) {
         const isSelf = userProfile.id === user.id

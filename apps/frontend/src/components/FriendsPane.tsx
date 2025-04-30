@@ -12,13 +12,9 @@ export default function FriendsPane({user}: any) {
 
     const [friendsList, setFriendsList] = useState<User[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const [addFriendsList, setAddFriendsList] = useState(false);
     const [nonFriends, setNonFriends] = useState<User[] | null>(null);
     const [refresh, setRefresh] = useState(0);
 
-    function addFriendsToggle() {
-        setAddFriendsList(true)
-    }
 
     useEffect(() => {
         async function getFriends(userID: User["id"]) {
@@ -60,7 +56,6 @@ export default function FriendsPane({user}: any) {
         });
         setRefresh(prev => prev + 1);
         console.log(refresh);
-        setAddFriendsList(false);
     } catch(err) {
         console.log(err)
         }
@@ -109,15 +104,4 @@ export default function FriendsPane({user}: any) {
         </Box>
          )
         }
-
-    if (!friendsList) {
-        return (
-            <Box p={4} position="relative" zIndex="0" height="100%" bgColor="blackAlpha.800">
-                <Text>It appears you have no friends yet.</Text>
-                <Text>Add friends below!</Text>
-                <Button onClick={addFriendsToggle} bg="whiteAlpha.950">Add Friends</Button>
-            </Box>
-        )
-    }
-
 }

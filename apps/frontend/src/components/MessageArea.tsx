@@ -4,7 +4,6 @@ import axios from "axios";
 
 interface Props {
     focusedConversation: number,
-    refresh: number,
     currentUser: User
 }
 
@@ -23,7 +22,7 @@ interface User {
     username: string
 }
 
-export default function MessageArea({focusedConversation, refresh, currentUser}: Props) {
+export default function MessageArea({focusedConversation, currentUser}: Props) {
     const [conversation, setConversation] = useState<Message[] | null>(null)
 
     async function getConversation() {
@@ -41,7 +40,7 @@ export default function MessageArea({focusedConversation, refresh, currentUser}:
         if (focusedConversation !== 0) {
         getConversation()
         }
-    }, [focusedConversation, refresh])
+    }, [focusedConversation])
 
     if (!focusedConversation) {
         return (
