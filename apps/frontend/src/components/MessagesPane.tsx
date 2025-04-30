@@ -115,14 +115,14 @@ export default function MessagesPane({clickHandle, user, onFriendSelect, refresh
                         let youSent = message.author.username === user.username;
                         if (youSent) {
                             return (
-                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
+                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.recipient.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
                                     <Text fontWeight="bolder">{message.recipient.username}</Text>
-                                     <Text fontSize="0.7rem">({message.content})</Text>
+                                     <Text fontSize="0.7rem">{message.content}</Text>
                                 </Box>
                             )
                         }
                         else return (
-                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="blue.900" h="20" key={message.id}>
+                                <Box _hover={{cursor: 'pointer'}} onClick={() => clickHandle(message.author.id)} p={4} borderRadius="md" position="relative" zIndex="1" bgColor="green.900" h="20" key={message.id}>
                                     <Text fontWeight="bolder">{message.author.username}</Text>
                                     <Text fontWeight="bold" fontSize="0.7rem">{message.content}</Text>
                                 </Box>

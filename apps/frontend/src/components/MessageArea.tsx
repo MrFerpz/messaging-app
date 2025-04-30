@@ -27,6 +27,7 @@ export default function MessageArea({focusedConversation, currentUser, refreshCo
     const [conversation, setConversation] = useState<Message[] | null>(null)
 
     async function getConversation() {
+        console.log("message area get convo called")
         const response: any = await axios.get(`http://localhost:3000/api/messages/with/${focusedConversation}`, {
             withCredentials: true
         });

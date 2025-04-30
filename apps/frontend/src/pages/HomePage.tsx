@@ -69,6 +69,7 @@ export default function HomePage() {
 
     function messageClickHandle(id: number) {
         setFocusedUser(id);
+        console.log(focusedUser)
     }
 
     useEffect(() => {
